@@ -1,4 +1,5 @@
-const { Dog } = require("../../db");
+const { Dog, Temperament } = require("../../db");
+
 const { Op } = require("sequelize");
 const { relationsDogsTemperaments } = require("./temperamentsBDHelper");
 const getDogsNameBD = async (name) => {
@@ -6,11 +7,26 @@ const getDogsNameBD = async (name) => {
 };
 
 const getDogsBD = async () => {
-  return await Dog.findAll();
+  return await Dog.findAll({
+    include: {
+      model: Temperament,
+      attributes: ["name"],
+      through: {
+        attributes: [],
+      },
+    },
+  });
 };
 
 const getDogPk = async (id) => {
-  return await Dog.findByPk(id);
+  return await Dog.findByPk(id, {
+    include: {
+      model: Temperament,
+      through: {
+        attributes: [],
+      },
+    },
+  });
 };
 
 const postDog = async (

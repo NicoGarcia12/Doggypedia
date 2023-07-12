@@ -1,0 +1,8 @@
+  .navBarContainer {
+    background-color: rgb(186, 93, 11);
+    height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+  }

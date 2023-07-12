@@ -1,4 +1,3 @@
-const { validate } = require("uuid");
 const {
   getUniqueDogAPIController,
   getUniqueDogBDController,
@@ -7,7 +6,8 @@ const getUniqueDogHandler = async (req, res) => {
   try {
     const { id } = req.params;
     let response;
-    if (validate(id)) {
+    let valor = isNaN(id) ? "BD" : "API";
+    if (valor === "BD") {
       response = await getUniqueDogBDController(id);
     } else {
       response = await getUniqueDogAPIController(id);

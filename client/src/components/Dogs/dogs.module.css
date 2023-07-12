@@ -1,0 +1,8 @@
+.dogsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+  grid-auto-rows: 350px;
+  justify-content: center;
+  gap: 30px;
+}
+  

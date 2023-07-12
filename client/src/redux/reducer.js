@@ -1,12 +1,29 @@
-// import { ADD_FAV, REMOVE_FAV, ORDER, FILTER, ERROR } from "./actions";
+import {
+  ORDER,
+  FILTER_ORIGEN,
+  FILTER_TEMPERAMENT,
+  PETICION_DOGS,
+  CHANGE_PAGE,
+} from "./actions";
 
-const initialState = {};
+const initialState = {
+  allDogs: [],
+  copyAllDogs: [],
+  currentPage: 1,
+};
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 1:
+    case ORDER:
       break;
-
+    case FILTER_ORIGEN:
+      break;
+    case FILTER_TEMPERAMENT:
+      break;
+    case PETICION_DOGS:
+      return { ...state, allDogs: action.payload, copyAllDogs: action.payload };
+    case CHANGE_PAGE:
+      return { ...state, currentPage: action.payload };
     default:
       return { ...state };
   }
