@@ -21,10 +21,10 @@ export const peticionDogs = () => {
 export const loadTemperaments = () => {
   const endpoint = "http://localhost:3001/temperaments";
   return (dispatch) => {
-    axios(endpoint).then((response) => {
+    axios(endpoint).then(({data}) => {
       return dispatch({
         type: LOAD_TEMPERAMENTS,
-        payload: response,
+        payload: data,
       });
     });
   };

@@ -4,16 +4,22 @@ import {
   FILTER_TEMPERAMENT,
   PETICION_DOGS,
   CHANGE_PAGE,
+  LOAD_TEMPERAMENTS
 } from "./actions";
 
 const initialState = {
   allDogs: [],
   copyAllDogs: [],
   currentPage: 1,
+  allTemperaments: []
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_TEMPERAMENTS:      
+      return {
+        ...state, allTemperaments: action.payload
+      }
     case ORDER:
       break;
     case FILTER_ORIGEN:

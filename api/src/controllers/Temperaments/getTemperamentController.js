@@ -1,6 +1,6 @@
 const { getDogsAPI } = require("../../helpers/API/dogsAPIHelper");
 const {
-  temperamentsBDHelper,
+  temperamentsBDHelper, loadTemperamentsBDHelper,
 } = require("../../helpers/BD/temperamentsBDHelper");
 
 const getTemperamentController = async () => {
@@ -17,6 +17,7 @@ const getTemperamentController = async () => {
   temperaments.forEach(async (temperament) => {
     await temperamentsBDHelper(temperament);
   });
+  return await loadTemperamentsBDHelper();
 };
 
 module.exports = { getTemperamentController };

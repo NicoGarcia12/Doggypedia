@@ -4,8 +4,8 @@ const {
 
 const getTemperamentsHandler = async (req, res) => {
   try {
-    response = getTemperamentController();
-    res.status(200).json("Los temperamentos se cargaron correctamente");
+    response = await getTemperamentController();
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error);
   }

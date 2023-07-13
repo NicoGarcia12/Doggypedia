@@ -6,13 +6,13 @@ import { change_page } from "../../redux/actions";
 export default function Dogs() {
   const Dogs = useSelector((state) => state.copyAllDogs);
   const currentPage = useSelector((state) => state.currentPage);
+  const temperaments = useSelector((state) => state.allTemperaments);
   const dispatch = useDispatch();
   const dogsPerPage = 8;
   const pages = Math.ceil(Dogs.length / dogsPerPage);
   const indexLast = dogsPerPage * currentPage;
   const indexStart = indexLast - dogsPerPage;
   const dogsMostrados = Dogs.slice(indexStart, indexLast);
-
   function cambioEstado(accion) {
     if (accion === "NEXT") {
       if (currentPage < pages) {
@@ -27,13 +27,13 @@ export default function Dogs() {
 
   return (
     <div>
-      <div>
+      <div className={style.filtersAndOrders}>
         Filter by temperament:
         <select name="Filter_Temperament">
-          <option value="">Todos</option>
-          <option value="">Breed</option>
-          <option value="">Age Range</option>
-          <option value="">Gender</option>
+          <option value="All">All</option>
+          {temperaments?.map((temperament) => {
+            return <option value={temperament}>{temperament}</option>;
+          })}
         </select>
         Filter by origin:
         <select name="Filter_Origin">

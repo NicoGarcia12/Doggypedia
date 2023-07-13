@@ -13,7 +13,7 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className={style.homeContainer}>
       <Dogs />
     </div>
   );

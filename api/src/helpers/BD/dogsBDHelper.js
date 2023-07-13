@@ -3,7 +3,9 @@ const { Dog, Temperament } = require("../../db");
 const { Op } = require("sequelize");
 const { relationsDogsTemperaments } = require("./temperamentsBDHelper");
 const getDogsNameBD = async (name) => {
-  return await Dog.findAll({ where: { name: { [Op.startsWith]: name } } });
+  // return 
+  const Dog =  await Dog.findAll({ where: { name: { [Op.startsWith]: name } } });
+  const Temperaments = await Dog_Temperament.findAll({where:{idDog: Dog.id}}); 
 };
 
 const getDogsBD = async () => {
@@ -22,6 +24,7 @@ const getDogPk = async (id) => {
   return await Dog.findByPk(id, {
     include: {
       model: Temperament,
+      attributes: ["name"],
       through: {
         attributes: [],
       },

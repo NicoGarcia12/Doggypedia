@@ -11,7 +11,7 @@ const getUniqueDogBDController = async (id) => {
     }
     return output;
   } catch (error) {
-    throw Error(error.message);
+    throw new Error(error.message);
   }
 };
 
