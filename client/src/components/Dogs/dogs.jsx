@@ -15,6 +15,7 @@ export default function Dogs() {
   const [order, setOrder] = useState();
   const [filterOrigin, setFilterOrigin] = useState();
   const [filterTemperament, setFilterTemperament] = useState();
+  const [name, setName] = useState();
   const Dogs = useSelector((state) => state.copyAllDogs);
   const currentPage = useSelector((state) => state.currentPage);
   const temperaments = useSelector((state) => state.allTemperaments);
@@ -46,6 +47,7 @@ export default function Dogs() {
     const selectedFilter = event.target.value;
     setFilterOrigin(selectedFilter);
     setFilterTemperament("All");
+    setName("");
     dispatch(filterDogsTemperament("All"));
     dispatch(filterDogsOrigen(selectedFilter));
     dispatch(change_page(1));
@@ -55,6 +57,7 @@ export default function Dogs() {
     const selectedFilter = event.target.value;
     setFilterTemperament(selectedFilter);
     setFilterOrigin("All");
+    setName("");
     dispatch(filterDogsOrigen("All"));
     dispatch(filterDogsTemperament(selectedFilter));
     dispatch(change_page(1));

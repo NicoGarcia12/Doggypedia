@@ -3,7 +3,7 @@ export default function validation(inputs) {
   // CAMBIAR POR TODAS LAS DE PERROS: NAME, WEIGHT/HEIGHT MIN Y MAX
   //                                  ANIOS MIN Y MAX, IMAGE Y TEMPERAMENTS
   if (!inputs.name) {
-    errors.name = "El name no puede estar vacío";
+    errors.name = "The name cannot be empty";
   }
   if (
     !inputs.weight_min ||
@@ -67,8 +67,5 @@ export default function validation(inputs) {
   if (!inputs.image || !isImageURL(inputs.image)) {
     errors.image = "You must load the URL of an image";
   }
-  if (inputs.temperaments.length === 0) {
-    errors.temperaments = "Must choose at least one temperament";
-  }  
   return errors;
 }

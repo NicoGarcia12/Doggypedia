@@ -25,11 +25,28 @@ export default function Create() {
   const allTemperaments = useSelector((state) => state.allTemperaments);
 
   useEffect(() => {
+    setTemperaments(allTemperaments);
     if (temperaments.length === 0) {
       dispatch(loadTemperaments());
-      setTemperaments(allTemperaments);
     }
-  }, [dispatch, temperaments]);
+
+    if (newBreed.temperaments.length === 0 && !errors.temperaments) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        temperaments: "Must choose at least one temperament",
+      }));
+    } else if (newBreed.temperaments.length > 0 && errors.temperaments) {
+      setErrors((prevErrors) => {
+        const { temperaments, ...restErrors } = prevErrors;
+        return restErrors;
+      });
+    }
+  }, [
+    dispatch,
+    temperaments.length,
+    newBreed.temperaments,
+    errors.temperaments,
+  ]);
 
   const handleInputChange = (event) => {
     setNewBreed({
@@ -50,10 +67,17 @@ export default function Create() {
       temperaments: [...newBreed.temperaments, temperament],
     });
     setTemperaments(temperaments.filter((temp) => temp !== temperament));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      temperaments: undefined, // Eliminar el mensaje de error para temperaments
-    }));
+    setErrors((prevErrors) => {
+      if (prevErrors.temperaments && newBreed.temperaments.length === 0) {
+        return {
+          ...prevErrors,
+          temperaments: "Debe elegir al menos un temperamento",
+        };
+      } else {
+        const { temperaments, ...restErrors } = prevErrors;
+        return restErrors;
+      }
+    });
   };
 
   const handleRemoveTemperament = (temperament) => {
