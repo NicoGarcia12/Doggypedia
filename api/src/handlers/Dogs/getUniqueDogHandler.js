@@ -14,7 +14,7 @@ const getUniqueDogHandler = async (req, res) => {
     }
     return res.status(200).json(response);
   } catch (error) {
-    if (error.message === "No existe ese ID") {
+    if (error.message === "Dog not found") {
       return res.status(404).json(error.message);
     } else {
       return res.status(500).json(error.message);

@@ -13,12 +13,10 @@ const getDogsHandler = async (req, res) => {
     }
     return res.status(200).json(response);
   } catch (error) {
-    console.log(error);
-    console.log(error.message);
-    if (error.message === "No existe esa raza") {
-      return res.status(404).json(error.message);
+    if (error.message === "Dog not found") {
+      return res.status(404).json(error);
     } else {
-      return res.status(500).json(error.message);
+      return res.status(500).json(error);
     }
   }
 };

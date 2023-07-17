@@ -18,7 +18,6 @@ export default function Dog({ dog }) {
 
   return (
     <div className={style.dogContainer}>
-      {/* NO FUNCIONA AL ENVIAR */}
       <NavLink to={`/detail/${dog.id}`}>
         <div className={style.imageContainer}>
           <img src={image} alt={dog.name} />

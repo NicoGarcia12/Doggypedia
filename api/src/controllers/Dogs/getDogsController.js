@@ -18,7 +18,7 @@ const getDogsControllerName = async (name) => {
   let dogsDataBD;
   dogsDataBD = await getDogsNameBD(name);
   if (dogsDataAPI.length === 0 && dogsDataBD.length === 0) {
-    throw new Error("No existe esa raza");
+    throw new Error("Dog not found");
   }
   return [...dogsDataAPI, ...dogsDataBD];
 };

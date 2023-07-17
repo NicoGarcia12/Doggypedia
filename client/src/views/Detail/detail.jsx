@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Detail() {
-  const [dog, setDog] = useState({});
+  const [dog, setDog] = useState([]);
   const { id } = useParams();
   const [temperament, setTemperament] = useState([]);
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Detail() {
         setTemperament(data.temperaments);
       })
       .catch((error) => {
-        alert("No existe ese id");
+        alert(error.response.data);
         navigate("/home");
       });
 

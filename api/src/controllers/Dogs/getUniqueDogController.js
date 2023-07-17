@@ -7,7 +7,7 @@ const getUniqueDogBDController = async (id) => {
     if (dogIdBD) {
       output = dogIdBD;
     } else {
-      throw new Error("No existe ese ID");
+      throw new Error("Dog not found");
     }
     return output;
   } catch (error) {
@@ -16,16 +16,20 @@ const getUniqueDogBDController = async (id) => {
 };
 
 const getUniqueDogAPIController = async (id) => {
-  const response = await getDogsAPI();
-  const dogsFromAPI = response.data;
-  const dogIdAPI = dogsFromAPI.find((dog) => dog.id === parseInt(id));
-  let output;
-  if (dogIdAPI) {
-    output = dogIdAPI;
-  } else {
-    throw new Error("No existe ese ID");
+  try {
+    const response = await getDogsAPI();
+    const dogsFromAPI = response.data;
+    const dogIdAPI = dogsFromAPI.find((dog) => dog.id === parseInt(id));
+    let output;
+    if (dogIdAPI) {
+      output = dogIdAPI;
+    } else {
+      throw new Error("Dog not found");
+    }
+    return output;
+  } catch (error) {
+    throw new Error(error.message);
   }
-  return output;
 };
 
 module.exports = { getUniqueDogBDController, getUniqueDogAPIController };
