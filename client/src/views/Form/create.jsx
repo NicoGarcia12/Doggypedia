@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import validation from "../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { loadTemperaments } from "../../redux/actions";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
   const [newBreed, setNewBreed] = useState({
@@ -15,14 +17,19 @@ export default function Create() {
     anios_max: "",
     temperaments: [],
   });
-  const [errors, setErrors] = useState({});
-  const allTemperaments = useSelector((state) => state.allTemperaments);
-  const [temperaments, setTemperaments] = useState([...allTemperaments]);
+  const [errors, setErrors] = useState({}); //
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [temperaments, setTemperaments] = useState([]);
+  const allTemperaments = useSelector((state) => state.allTemperaments);
 
   useEffect(() => {
-    dispatch(loadTemperaments());
-  }, [dispatch]);
+    if (temperaments.length === 0) {
+      dispatch(loadTemperaments());
+      setTemperaments(allTemperaments);
+    }
+  }, [dispatch, temperaments]);
 
   const handleInputChange = (event) => {
     setNewBreed({
@@ -43,6 +50,10 @@ export default function Create() {
       temperaments: [...newBreed.temperaments, temperament],
     });
     setTemperaments(temperaments.filter((temp) => temp !== temperament));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      temperaments: undefined, // Eliminar el mensaje de error para temperaments
+    }));
   };
 
   const handleRemoveTemperament = (temperament) => {
@@ -53,16 +64,39 @@ export default function Create() {
       ),
     });
     setTemperaments([...temperaments, temperament]);
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    let errores = Object.values(errors);
-    if (errores && errores.length > 0) {
-      alert("Debe llenar todos los campos de manera correcta");
+    if (newBreed.temperaments.length === 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        temperaments: "Must choose at least one temperament",
+      }));
     } else {
-      dispatch("ACA TIENE QUE IR EL POST");
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        temperaments: undefined,
+      }));
     }
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let errores = Object.values(errors); //
+    if (errores && errores.length > 0) {
+      //
+      alert("Debe llenar todos los campos de manera correcta"); //
+    } else {
+      axios
+        .post("http://localhost:3001/dogs", newBreed) //
+        .then((response) => {
+          alert(response.data);
+          navigate("/home");
+        })
+        .catch((error) => {
+          alert("There was an error creating the breed");
+        });
+    }
+  };
+
+  const hasErrors = Object.keys(errors).length > 0;
 
   return (
     <div>
@@ -78,7 +112,6 @@ export default function Create() {
         {errors.name && <span>{errors.name}</span>}
         <br />
         <br />
-
         <h3>Weight:</h3>
         <label>Min:</label>
         <input
@@ -98,7 +131,6 @@ export default function Create() {
         {errors.weight_max && <span>{errors.weight_max}</span>}
         <br />
         <br />
-
         <h3>Height:</h3>
         <label>Min:</label>
         <input
@@ -118,7 +150,6 @@ export default function Create() {
         {errors.height_max && <span>{errors.height_max}</span>}
         <br />
         <br />
-
         <h3>Life Span:</h3>
         <label>Min:</label>
         <input
@@ -138,7 +169,6 @@ export default function Create() {
         {errors.anios_max && <span>{errors.anios_max}</span>}
         <br />
         <br />
-
         <h3>Image URL:</h3>
         <input
           type="url"
@@ -149,7 +179,6 @@ export default function Create() {
         {errors.image && <span>{errors.image}</span>}
         <br />
         <br />
-
         <h3>Temperaments:</h3>
         <select
           name="temperaments"
@@ -175,8 +204,9 @@ export default function Create() {
             </div>
           ))}
         </div>
-
-        <button type="submit">Create</button>
+        <button type="submit" disabled={hasErrors}>
+          Create
+        </button>
       </form>
     </div>
   );

@@ -16,7 +16,7 @@ const postDogController = async (
     life_span,
     temperaments
   );
-  return "¡Exito al crear la raza!";
+  return "Success in creating the breed!";
 };
 
 module.exports = {
