@@ -1,0 +1,38 @@
+.landingContainer {
+  background-attachment: fixed;
+  background-image: url("https://fondosmil.com/fondo/37959.jpg");
+  background-size: contain;
+  background-position: center;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-color: #000;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding-bottom: 1em;
+}
+
+h1 {
+  color: #000;
+  font-size: 3em;
+  margin-bottom: 5px;
+}
+
+button {
+  background-color: #000;
+  color: #9bb61b;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  transition: transform 0.3s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.3);
+}

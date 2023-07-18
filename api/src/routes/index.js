@@ -6,9 +6,6 @@ const { getTemperamentsHandler } = require("../handlers/Temperaments/getTemperam
 
 const router = Router();
 
-// HANDLER RECIBO REQ Y LO MANDO AL CONTROLLER QUE HAGA LÓGICA
-// HELPER TIENE LOS PEDIDOS A LA API Y A LA BD, DEVUELVO AL CONTROLLER
-// Y SU RESULTADO ES PARA EL RES
 
 router.get("/dogs", getDogsHandler);
 router.get("/dogs/:id", getUniqueDogHandler);

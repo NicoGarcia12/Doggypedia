@@ -1,0 +1,71 @@
+h1,
+h2,
+h3 {
+  color: #9bb61b;
+}
+label {
+  color: #9bb61b;
+  font-weight: bolder;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 500px;
+  padding-right: 500px;
+}
+
+.error {
+  color: #f8be00;
+}
+
+select {
+  background-color: black;
+  color: #9bb61b;
+  border: solid 1px #9bb61b;
+  border-radius: 5px;
+}
+
+select:focus {
+  outline: none;
+}
+
+input[type="text"] {
+  background-color: black;
+  color: #9bb61b;
+  border: solid 1px #9bb61b;
+  border-radius: 10px;
+}
+
+input[type="number"] {
+  background-color: black;
+  color: #9bb61b;
+  width: 3em;
+  border: solid 1px #9bb61b;
+  border-radius: 10px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* WebKit */
+  margin: 0; /* Elimina el espacio extra causado por las flechas */
+}
+
+input[type="url"] {
+  background-color: black;
+  color: #9bb61b;
+  border: solid 1px #9bb61b;
+  border-radius: 10px;
+}
+button[type="submit"] {
+  margin-top: 20px;
+}
+
+input:focus {
+  outline: none;
+}
+
+#send {
+  font-size: 12px; /* Tamaño de fuente más pequeño */
+  padding: 5px 10px; /* Espaciado interno más pequeño */
+}

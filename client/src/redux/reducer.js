@@ -5,6 +5,7 @@ import {
   PETICION_DOGS,
   CHANGE_PAGE,
   LOAD_TEMPERAMENTS,
+  SEARCH_NAME,
 } from "./actions";
 
 const initialState = {
@@ -24,6 +25,20 @@ const rootReducer = (state = initialState, action) => {
           a.name.localeCompare(b.name)
         ),
       };
+    case SEARCH_NAME:
+      if (action.payload === "Dog not found") {
+        return {
+          ...state,
+          copyAllDogs: [],
+        };
+      } else {
+        return {
+          ...state,
+          copyAllDogs: action.payload.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          ),
+        };
+      }
     case CHANGE_PAGE:
       return { ...state, currentPage: action.payload };
     case LOAD_TEMPERAMENTS:

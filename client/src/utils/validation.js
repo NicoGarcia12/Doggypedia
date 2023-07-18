@@ -1,7 +1,5 @@
 export default function validation(inputs) {
   let errors = {};
-  // CAMBIAR POR TODAS LAS DE PERROS: NAME, WEIGHT/HEIGHT MIN Y MAX
-  //                                  ANIOS MIN Y MAX, IMAGE Y TEMPERAMENTS
   if (!inputs.name) {
     errors.name = "The name cannot be empty";
   }
@@ -9,52 +7,40 @@ export default function validation(inputs) {
     !inputs.weight_min ||
     isNaN(inputs.weight_min) ||
     inputs.weight_min < 1 ||
-    inputs.weight_min > inputs.weight_max
-  ) {
-    errors.weight_min =
-      "The minimum weight must be a number, it cannot be empty, less than 1, or greater than the maximum weight";
-  }
-  if (
+    inputs.weight_min > inputs.weight_max ||
     !inputs.weight_max ||
     isNaN(inputs.weight_max) ||
+    inputs.weight_max < 1 ||
     inputs.weight_max < inputs.weight_min
   ) {
-    errors.weight_max =
-      "The maximum weight must be a number, not empty or less than the minimum weight";
+    errors.weight =
+      "They must be at least 1 and respect min-max";
   }
   if (
     !inputs.height_min ||
     isNaN(inputs.height_min) ||
     inputs.height_min < 1 ||
-    inputs.height_min > inputs.height_max
-  ) {
-    errors.height_min =
-      "The minimum height must be a number, not empty, less than 1, or greater than the maximum height";
-  }
-  if (
+    inputs.height_min > inputs.height_max ||
     !inputs.height_max ||
     isNaN(inputs.height_max) ||
+    inputs.height_max < 1 ||
     inputs.height_max < inputs.height_min
   ) {
-    errors.height_max =
-      "The maximum height must be a number, not empty or less than the minimum height";
+    errors.height =
+      "They must be at least 1 and respect min-max";
   }
   if (
     !inputs.anios_min ||
     isNaN(inputs.anios_min) ||
     inputs.anios_min < 0 ||
-    inputs.anios_min > inputs.anios_max
-  ) {
-    errors.anios_min =
-      "The minimum age must be a number, not empty, less than 0, or greater than the maximum age";
-  }
-  if (
+    inputs.anios_min >= inputs.anios_max ||
     !inputs.anios_max ||
     isNaN(inputs.anios_max) ||
-    inputs.anios_max > inputs.anios_min
+    inputs.anios_max < 0 ||
+    inputs.anios_max <= inputs.anios_min
   ) {
-    errors.anios_max =
-      "The maximum age must be a number, not empty or less than the maximum age";
+    errors.anios =
+      "They cannot be equal, they have to be from 0 and respect min-max";
   }
   function isImageURL(url) {
     // Expresión regular para verificar si la URL tiene una extensión de imagen válida
@@ -67,5 +53,10 @@ export default function validation(inputs) {
   if (!inputs.image || !isImageURL(inputs.image)) {
     errors.image = "You must load the URL of an image";
   }
+
+  if (inputs.temperaments.length === 0) {
+    errors.temperaments = "Must choose at least one temperament";
+  }
+
   return errors;
 }

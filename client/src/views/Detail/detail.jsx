@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-// import style from "./detail.module.css";
+import style from "./detail.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -16,6 +16,7 @@ export default function Detail() {
         setTemperament(data.temperaments);
       })
       .catch((error) => {
+        console.log(error);
         alert(error.response.data);
         navigate("/home");
       });
@@ -30,7 +31,7 @@ export default function Detail() {
   const height = isNaN(dog.id) ? dog.height : dog.height.metric;
   let temperaments;
   if (isNaN(dog.id)) {
-    temperaments = temperament.map((temp) => temp.name);
+    temperaments = temperament?.map((temp) => temp.name);
     temperaments = temperaments.join(", ");
   } else {
     if (!dog.temperament) {
@@ -41,14 +42,15 @@ export default function Detail() {
   }
 
   return (
-    <div>
-      <h3>Id: {dog.id}</h3>
-      <img src={image} alt={dog.name} />
-      <h3>Name: {dog.name}</h3>
-      <h4>Height: {height}</h4>
-      <h4>Weight: {weight}</h4>
-      <h4>Temperaments: {temperaments}</h4>
-      <h4>Lifespan: {dog.life_span}</h4>
+    <div className={style.detailContainer}>
+      <img src={image} alt={dog.name} className={style.leftSection} />
+      <div className={style.rightSection}>
+        <h2>Name: {dog.name}</h2>
+        <h3>Height: {height} m</h3>
+        <h3>Weight: {weight} kg</h3>
+        <h3>Temperaments: {temperaments}</h3>
+        <h3>Lifespan: {dog.life_span}</h3>
+      </div>
     </div>
   );
 }

@@ -1,15 +1,31 @@
 .dogsContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
-  /* grid-auto-rows: 350px; */
   justify-content: center;
   gap: 30px;
 }
-.filtersAndOrders{
+
+.pagination {
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 
-.pagination{
+.filters {
+  margin-top: 1em;
   margin-bottom: 1em;
 }
-  
+
+.orderAndSearch {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+label {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+span {
+  padding-left: 1em;
+  padding-right: 1em;
+}

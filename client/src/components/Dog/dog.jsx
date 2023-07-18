@@ -20,12 +20,14 @@ export default function Dog({ dog }) {
     <div className={style.dogContainer}>
       <NavLink to={`/detail/${dog.id}`}>
         <div className={style.imageContainer}>
-          <img src={image} alt={dog.name} />
+          <img src={image} alt={dog.name} className={style.image} />
         </div>
       </NavLink>
-      <h3>Name: {dog.name}</h3>
-      <h4>Temperaments: {temperaments}</h4>
-      <h4>Weight: {weight}</h4>
+      <div className={style.textContainer}>
+        <h3>Name: {dog.name}</h3>
+        <h4>Temperaments: {temperaments}</h4>
+        <h4>Weight: {weight} kg</h4>
+      </div>
     </div>
   );
 }

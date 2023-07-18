@@ -5,6 +5,7 @@ export const FILTER_TEMPERAMENT = "FILTER_TEMPERAMENT";
 export const PETICION_DOGS = "PETICION_DOGS";
 export const LOAD_TEMPERAMENTS = "LOAD_TEMPERAMENTS";
 export const CHANGE_PAGE = "CHANGE_PAGE";
+export const SEARCH_NAME = "SEARCH_NAME";
 
 export const peticionDogs = () => {
   const endpoint = "http://localhost:3001/dogs";
@@ -57,3 +58,18 @@ export function orderDogs(ordenamiento) {
     payload: ordenamiento,
   };
 }
+
+export const searchName = (name) => {
+  const endpoint = `http://localhost:3001/dogs?name=${name}`;
+  return (dispatch) => {
+    axios(endpoint).then(({ data }) => {
+      return dispatch({
+        type: SEARCH_NAME,
+        payload: data,
+      });
+    }).catch((error) => {      return dispatch({
+      type: SEARCH_NAME,
+      payload: error.response.data,
+    });});
+  };
+};

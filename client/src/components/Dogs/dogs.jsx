@@ -8,6 +8,7 @@ import {
   peticionDogs,
   filterDogsTemperament,
   filterDogsOrigen,
+  searchName,
 } from "../../redux/actions";
 import { useEffect, useState } from "react";
 
@@ -63,6 +64,17 @@ export default function Dogs() {
     dispatch(change_page(1));
   }
 
+  function handleSearchName(event) {
+    let value = event.target.value;
+    setFilterOrigin("All");
+    setFilterTemperament("All");
+    setName(value);
+    dispatch(filterDogsOrigen("All"));
+    dispatch(filterDogsTemperament("All"));
+    dispatch(searchName(encodeURIComponent(value))); // Codificar el valor de name
+    dispatch(change_page(1));
+  }
+
   function handleOrder(event) {
     const selectedOrder = event.target.value;
     setOrder(selectedOrder);
@@ -76,13 +88,13 @@ export default function Dogs() {
         <button type="button" onClick={() => cambioEstado("PREVIOUS")}>
           Previous
         </button>
-        <span>{currentPage}</span>
+        <label>{currentPage}</label>
         <button type="button" onClick={() => cambioEstado("NEXT")}>
           Next
         </button>
       </div>
-      <div className={style.filtersAndOrders}>
-        Filter by temperament:
+      <div className={style.filters}>
+        <label>Filter by temperament:</label>
         <select
           name="Filter_Temperament"
           value={filterTemperament}
@@ -93,7 +105,7 @@ export default function Dogs() {
             return <option value={temperament}>{temperament}</option>;
           })}
         </select>
-        Filter by origin:
+        <label>Filter by origin:</label>
         <select
           name="Filter_Origin"
           value={filterOrigin}
@@ -103,21 +115,77 @@ export default function Dogs() {
           <option value="API">API</option>
           <option value="BD">BD</option>
         </select>
-        Sort by:
+      </div>
+      <div className={style.orderAndSearch}>
+        <label>Sort by:</label>
         <select name="Sort" value={order} onChange={handleOrder}>
           <option value="Ascending_Name">A-Z</option>
           <option value="Descending_Name">Z-A</option>
           <option value="Ascending_Weight">Weight</option>
           <option value="Descending_Weight">Weight_Descending</option>
         </select>
-      </div>
-      <div>
-        <input type="search" name="SearchByName" placeholder="Name" />
+        <label>Search by name:</label>
+        <input
+          type="text"
+          value={name}
+          onChange={handleSearchName}
+        />
       </div>
       <div className={style.dogsContainer}>
-        {dogsMostrados?.map((dog, index) => {
-          return <Dog key={index} dog={dog} />;
-        })}
+        {dogsMostrados.length === 0 ? (
+          <label>Dogs not found</label>
+        ) : (
+          dogsMostrados.map((dog, index) => {
+            return <Dog key={index} dog={dog} />;
+          })
+        )}
+      </div>
+      <div className={style.pagination}>
+        <button type="button" onClick={() => cambioEstado("PREVIOUS")}>
+          Previous
+        </button>
+        <label>{currentPage}</label>
+        <button type="button" onClick={() => cambioEstado("NEXT")}>
+          Next
+        </button>
+      </div>
+      <div className={style.filters}>
+        <label>Filter by temperament:</label>
+        <select
+          name="Filter_Temperament"
+          value={filterTemperament}
+          onChange={handleFilterTemperament}
+        >
+          <option value="All">All</option>
+          {temperaments?.map((temperament) => {
+            return <option value={temperament}>{temperament}</option>;
+          })}
+        </select>
+        <label>Filter by origin:</label>
+        <select
+          name="Filter_Origin"
+          value={filterOrigin}
+          onChange={handleFilterOrigin}
+        >
+          <option value="All">All</option>
+          <option value="API">API</option>
+          <option value="BD">BD</option>
+        </select>
+      </div>
+      <div className={style.orderAndSearch}>
+        <label>Sort by:</label>
+        <select name="Sort" value={order} onChange={handleOrder}>
+          <option value="Ascending_Name">A-Z</option>
+          <option value="Descending_Name">Z-A</option>
+          <option value="Ascending_Weight">Weight</option>
+          <option value="Descending_Weight">Weight_Descending</option>
+        </select>
+        <label>Search by name:</label>
+        <input
+          type="text"
+          value={name}
+          onChange={handleSearchName}
+        />
       </div>
     </div>
   );

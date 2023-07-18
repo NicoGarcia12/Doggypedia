@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadTemperaments } from "../../redux/actions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import style from "./create.module.css";
 
 export default function Create() {
   const [newBreed, setNewBreed] = useState({
@@ -17,7 +18,7 @@ export default function Create() {
     anios_max: "",
     temperaments: [],
   });
-  const [errors, setErrors] = useState({}); //
+  const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,28 +26,23 @@ export default function Create() {
   const allTemperaments = useSelector((state) => state.allTemperaments);
 
   useEffect(() => {
-    setTemperaments(allTemperaments);
-    if (temperaments.length === 0) {
+    if (allTemperaments.length === 0) {
       dispatch(loadTemperaments());
     }
+    setTemperaments(allTemperaments);
 
-    if (newBreed.temperaments.length === 0 && !errors.temperaments) {
+    if (newBreed.temperaments.length === 0) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         temperaments: "Must choose at least one temperament",
       }));
-    } else if (newBreed.temperaments.length > 0 && errors.temperaments) {
+    } else {
       setErrors((prevErrors) => {
         const { temperaments, ...restErrors } = prevErrors;
         return restErrors;
       });
     }
-  }, [
-    dispatch,
-    temperaments.length,
-    newBreed.temperaments,
-    errors.temperaments,
-  ]);
+  }, [dispatch, newBreed.temperaments, allTemperaments]);
 
   const handleInputChange = (event) => {
     setNewBreed({
@@ -57,6 +53,7 @@ export default function Create() {
       validation({
         ...newBreed,
         [event.target.name]: event.target.value,
+        temperaments: newBreed.temperaments,
       })
     );
   };
@@ -66,18 +63,18 @@ export default function Create() {
       ...newBreed,
       temperaments: [...newBreed.temperaments, temperament],
     });
-    setTemperaments(temperaments.filter((temp) => temp !== temperament));
-    setErrors((prevErrors) => {
-      if (prevErrors.temperaments && newBreed.temperaments.length === 0) {
-        return {
-          ...prevErrors,
-          temperaments: "Debe elegir al menos un temperamento",
-        };
-      } else {
+
+    if (newBreed.temperaments.length === 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        temperaments: "Must choose at least one temperament",
+      }));
+    } else {
+      setErrors((prevErrors) => {
         const { temperaments, ...restErrors } = prevErrors;
         return restErrors;
-      }
-    });
+      });
+    }
   };
 
   const handleRemoveTemperament = (temperament) => {
@@ -87,29 +84,28 @@ export default function Create() {
         (temp) => temp !== temperament
       ),
     });
-    setTemperaments([...temperaments, temperament]);
-    if (newBreed.temperaments.length === 0) {
+
+    if (newBreed.temperaments.length === 1) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         temperaments: "Must choose at least one temperament",
       }));
     } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        temperaments: undefined,
-      }));
+      setErrors((prevErrors) => {
+        const { temperaments, ...restErrors } = prevErrors;
+        return restErrors;
+      });
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let errores = Object.values(errors); //
+    let errores = Object.values(errors);
     if (errores && errores.length > 0) {
-      //
-      alert("Debe llenar todos los campos de manera correcta"); //
+      alert("Debe llenar todos los campos de manera correcta");
     } else {
       axios
-        .post("http://localhost:3001/dogs", newBreed) //
+        .post("http://localhost:3001/dogs", newBreed)
         .then((response) => {
           alert(response.data);
           navigate("/home");
@@ -123,9 +119,9 @@ export default function Create() {
   const hasErrors = Object.keys(errors).length > 0;
 
   return (
-    <div>
-      <h1>Add a new breed</h1>
+    <div className={style.createContainer}>
       <form onSubmit={handleSubmit}>
+        <h2>New breed</h2>
         <h3>Name:</h3>
         <input
           type="text"
@@ -133,66 +129,80 @@ export default function Create() {
           value={newBreed.name}
           onChange={handleInputChange}
         />
-        {errors.name && <span>{errors.name}</span>}
         <br />
-        <br />
+        {errors.name && <span className={style.error}>{errors.name}</span>}
         <h3>Weight:</h3>
-        <label>Min:</label>
-        <input
-          type="number"
-          name="weight_min"
-          value={newBreed.weight_min}
-          onChange={handleInputChange}
-        />
-        {errors.weight_min && <span>{errors.weight_min}</span>}
-        <label>Max:</label>
-        <input
-          type="number"
-          name="weight_max"
-          value={newBreed.weight_max}
-          onChange={handleInputChange}
-        />
-        {errors.weight_max && <span>{errors.weight_max}</span>}
+        <div className={style.section}>
+          <div>
+            <label>Min:</label>
+            <input
+              type="number"
+              name="weight_min"
+              value={newBreed.weight_min}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>Max:</label>
+            <input
+              type="number"
+              name="weight_max"
+              value={newBreed.weight_max}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
         <br />
-        <br />
+        {errors.weight && <span className={style.error}>{errors.weight}</span>}
         <h3>Height:</h3>
-        <label>Min:</label>
-        <input
-          type="number"
-          name="height_min"
-          value={newBreed.height_min}
-          onChange={handleInputChange}
-        />
-        {errors.height_min && <span>{errors.height_min}</span>}
-        <label>Max:</label>
-        <input
-          type="number"
-          name="height_max"
-          value={newBreed.height_max}
-          onChange={handleInputChange}
-        />
-        {errors.height_max && <span>{errors.height_max}</span>}
+        <div className={style.section}>
+          <div>
+            <label>Min:</label>
+            <input
+              type="number"
+              name="height_min"
+              value={newBreed.height_min}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>Max:</label>
+            <input
+              type="number"
+              name="height_max"
+              value={newBreed.height_max}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
         <br />
-        <br />
+        {errors.height && <span className={style.error}>{errors.height}</span>}
         <h3>Life Span:</h3>
-        <label>Min:</label>
-        <input
-          type="number"
-          name="anios_min"
-          value={newBreed.anios_min}
-          onChange={handleInputChange}
-        />
-        {errors.anios_min && <span>{errors.anios_min}</span>}
-        <label>Max:</label>
-        <input
-          type="number"
-          name="anios_max"
-          value={newBreed.anios_max}
-          onChange={handleInputChange}
-        />
-        {errors.anios_max && <span>{errors.anios_max}</span>}
+        <div className={style.section}>
+          <div>
+            <label>Min:</label>
+            <input
+              type="number"
+              name="anios_min"
+              value={newBreed.anios_min}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>Max:</label>
+            <input
+              type="number"
+              name="anios_max"
+              value={newBreed.anios_max}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
         <br />
-        <br />
+        {errors.anios && <span className={style.error}>{errors.anios}</span>}
         <h3>Image URL:</h3>
         <input
           type="url"
@@ -200,37 +210,45 @@ export default function Create() {
           value={newBreed.image}
           onChange={handleInputChange}
         />
-        {errors.image && <span>{errors.image}</span>}
         <br />
-        <br />
+        {errors.image && <span className={style.error}>{errors.image}</span>}
         <h3>Temperaments:</h3>
         <select
           name="temperaments"
+          value="" // Limpia la selección después de agregar un temperamento
           onChange={(event) => handleAddTemperament(event.target.value)}
         >
+          <option value="" disabled>
+            Select a temperament
+          </option>
           {temperaments?.map((temperament) => {
-            return <option value={temperament}>{temperament}</option>;
+            if (!newBreed.temperaments.includes(temperament)) {
+              return (
+                <option key={temperament} value={temperament}>
+                  {temperament}
+                </option>
+              );
+            }
+            return null;
           })}
         </select>
-        {errors.temperaments && <span>{errors.temperaments}</span>}
         <br />
-        <br />
+        {errors.temperaments && (
+          <span className={style.error}>{errors.temperaments}</span>
+        )}
+        {newBreed.temperaments.map((temperament) => (
+          <div key={temperament}>
+            <label>{temperament}</label>{" "}
+            <label onClick={() => handleRemoveTemperament(temperament)}>
+              X
+            </label>
+          </div>
+        ))}
         <div>
-          {newBreed.temperaments.map((temperament) => (
-            <div key={temperament}>
-              <span>{temperament}</span>
-              <button
-                type="button"
-                onClick={() => handleRemoveTemperament(temperament)}
-              >
-                X
-              </button>
-            </div>
-          ))}
+          <button id="send" type="submit" disabled={hasErrors}>
+            Add
+          </button>
         </div>
-        <button type="submit" disabled={hasErrors}>
-          Create
-        </button>
       </form>
     </div>
   );
