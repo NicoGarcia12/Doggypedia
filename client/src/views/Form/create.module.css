@@ -11,8 +11,8 @@ label {
 .section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-left: 500px;
-  padding-right: 500px;
+  padding-left: 25em;
+  padding-right: 25em;
 }
 
 .error {
@@ -34,7 +34,7 @@ input[type="text"] {
   background-color: black;
   color: #9bb61b;
   border: solid 1px #9bb61b;
-  border-radius: 10px;
+  border-radius: 7px;
 }
 
 input[type="number"] {
@@ -42,7 +42,7 @@ input[type="number"] {
   color: #9bb61b;
   width: 3em;
   border: solid 1px #9bb61b;
-  border-radius: 10px;
+  border-radius: 7px;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -55,7 +55,7 @@ input[type="url"] {
   background-color: black;
   color: #9bb61b;
   border: solid 1px #9bb61b;
-  border-radius: 10px;
+  border-radius: 7pxpx;
 }
 button[type="submit"] {
   margin-top: 20px;

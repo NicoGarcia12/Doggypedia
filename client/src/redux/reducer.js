@@ -6,6 +6,7 @@ import {
   CHANGE_PAGE,
   LOAD_TEMPERAMENTS,
   SEARCH_NAME,
+  COMBINED_FILTERS,
 } from "./actions";
 
 const initialState = {
@@ -13,6 +14,11 @@ const initialState = {
   copyAllDogs: [],
   currentPage: 1,
   allTemperaments: [],
+  order: "",
+  filtersChosen: {
+    temperamentChosen: "",
+    originChosen: "",
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -30,6 +36,7 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           copyAllDogs: [],
+          searchName: action.payload,
         };
       } else {
         return {
@@ -46,6 +53,48 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allTemperaments: action.payload,
       };
+    case COMBINED_FILTERS:
+      let filtered = [...state.allDogs];
+      if (
+        action.payload.originChosen !== "All" &&
+        action.payload.originChosen !== ""
+      ) {
+        if (action.payload.originChosen === "API") {
+          filtered = filtered.filter((dog) => isNaN(dog.id) === false);
+        } else {
+          filtered = filtered.filter((dog) => isNaN(dog.id) === true);
+        }
+      }
+      if (
+        action.payload.temperamentChosen !== "All" &&
+        action.payload.temperamentChosen !== ""
+      ) {
+        filtered = filtered.filter((dog) => {
+          if (isNaN(dog.id)) {
+            return dog.temperaments.some(
+              (temp) => temp.name === action.payload.temperamentChosen
+            );
+          } else {
+            if (dog.temperament) {
+              return dog.temperament
+                .split(",")
+                .some(
+                  (temperament) =>
+                    temperament.trim() === action.payload.temperamentChosen
+                );
+            } else {
+              return false
+            }
+          }
+        });
+      }
+
+      return {
+        ...state,
+        filtersChosen: action.payload,
+        copyAllDogs: filtered,
+      };
+
     case ORDER:
       let orden;
       if (action.payload === "Ascending_Name") {
@@ -173,6 +222,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         copyAllDogs: orden,
+        order: action.payload,
       };
 
     case FILTER_ORIGEN:
@@ -180,17 +230,20 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           copyAllDogs: state.allDogs,
+          filterOrigin: action.payload,
         };
       } else {
         if (action.payload === "BD") {
           return {
             ...state,
             copyAllDogs: state.allDogs.filter((dog) => isNaN(dog.id) === true),
+            filterOrigin: action.payload,
           };
         } else {
           return {
             ...state,
             copyAllDogs: state.allDogs.filter((dog) => isNaN(dog.id) === false),
+            filterOrigin: action.payload,
           };
         }
       }
@@ -199,10 +252,12 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           copyAllDogs: state.allDogs,
+          filterTemperament: action.payload,
         };
       } else {
         return {
           ...state,
+          filterTemperament: action.payload,
           copyAllDogs: state.allDogs.filter((dog) => {
             if (isNaN(dog.id)) {
               if (Array.isArray(dog.temperaments)) {

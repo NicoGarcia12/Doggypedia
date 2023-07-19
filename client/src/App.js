@@ -5,10 +5,19 @@ import Home from "./views/Home/home";
 import NavBar from "./components/NavBar/navBar";
 import Detail from "./views/Detail/detail";
 import Create from "./views/Form/create";
-
+import { useEffect } from "react";
+import { loadTemperaments, peticionDogs } from "./redux/actions";
+import { useDispatch } from "react-redux";
 export default function App() {
-  const location = useLocation();
 
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(peticionDogs());
+    dispatch(loadTemperaments());
+  }, [dispatch]);
+  
   return (
     <div className="App">
       {location.pathname !== "/" && (
@@ -16,6 +25,7 @@ export default function App() {
           <NavBar />
         </>
       )}
+
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />

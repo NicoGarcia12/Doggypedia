@@ -4,33 +4,64 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   change_page,
   orderDogs,
-  loadTemperaments,
-  peticionDogs,
-  filterDogsTemperament,
-  filterDogsOrigen,
   searchName,
+  combinedFilters,
 } from "../../redux/actions";
 import { useEffect, useState } from "react";
 
 export default function Dogs() {
-  const [order, setOrder] = useState();
-  const [filterOrigin, setFilterOrigin] = useState();
-  const [filterTemperament, setFilterTemperament] = useState();
-  const [name, setName] = useState();
+  const order = useSelector((state) => state.order);
   const Dogs = useSelector((state) => state.copyAllDogs);
   const currentPage = useSelector((state) => state.currentPage);
   const temperaments = useSelector((state) => state.allTemperaments);
+  const filtersChosen = useSelector((state) => state.filtersChosen);
   const dispatch = useDispatch();
   const dogsPerPage = 8;
   const pages = Math.ceil(Dogs.length / dogsPerPage);
   const indexLast = dogsPerPage * currentPage;
   const indexStart = indexLast - dogsPerPage;
   const dogsMostrados = Dogs.slice(indexStart, indexLast);
+  const [name, setName] = useState();
+  const [filtersChosenLocal, setfiltersChosenLocal] = useState({
+    temperamentChosen: "",
+    originChosen: "",
+  });
 
   useEffect(() => {
-    dispatch(peticionDogs());
-    dispatch(loadTemperaments());
-  }, [dispatch]);
+    setfiltersChosenLocal(filtersChosen);
+  }, [filtersChosen]);
+
+  function handleFilterOrigin(event) {
+    const selectedFilter = event.target.value;
+    setfiltersChosenLocal({
+      ...filtersChosenLocal,
+      originChosen: selectedFilter,
+    });
+    setName("");
+    dispatch(
+      combinedFilters({
+        ...filtersChosen,
+        originChosen: selectedFilter,
+      })
+    );
+    dispatch(change_page(1));
+  }
+
+  function handleFilterTemperament(event) {
+    const selectedFilter = event.target.value;
+    setfiltersChosenLocal({
+      ...filtersChosenLocal,
+      temperamentChosen: selectedFilter,
+    });
+    setName("");
+    dispatch(
+      combinedFilters({
+        ...filtersChosen,
+        temperamentChosen: selectedFilter,
+      })
+    );
+    dispatch(change_page(1));
+  }
 
   function cambioEstado(accion) {
     if (accion === "NEXT") {
@@ -44,40 +75,25 @@ export default function Dogs() {
     }
   }
 
-  function handleFilterOrigin(event) {
-    const selectedFilter = event.target.value;
-    setFilterOrigin(selectedFilter);
-    setFilterTemperament("All");
-    setName("");
-    dispatch(filterDogsTemperament("All"));
-    dispatch(filterDogsOrigen(selectedFilter));
-    dispatch(change_page(1));
-  }
-
-  function handleFilterTemperament(event) {
-    const selectedFilter = event.target.value;
-    setFilterTemperament(selectedFilter);
-    setFilterOrigin("All");
-    setName("");
-    dispatch(filterDogsOrigen("All"));
-    dispatch(filterDogsTemperament(selectedFilter));
-    dispatch(change_page(1));
-  }
-
   function handleSearchName(event) {
     let value = event.target.value;
-    setFilterOrigin("All");
-    setFilterTemperament("All");
+    setfiltersChosenLocal({
+      originChosen: "All",
+      temperamentChosen: "All",
+    });
     setName(value);
-    dispatch(filterDogsOrigen("All"));
-    dispatch(filterDogsTemperament("All"));
+    dispatch(
+      combinedFilters({
+        originChosen: "All",
+        temperamentChosen: "All",
+      })
+    );
     dispatch(searchName(encodeURIComponent(value))); // Codificar el valor de name
     dispatch(change_page(1));
   }
 
   function handleOrder(event) {
     const selectedOrder = event.target.value;
-    setOrder(selectedOrder);
     dispatch(orderDogs(selectedOrder));
     dispatch(change_page(1));
   }
@@ -97,7 +113,7 @@ export default function Dogs() {
         <label>Filter by temperament:</label>
         <select
           name="Filter_Temperament"
-          value={filterTemperament}
+          value={filtersChosenLocal.temperamentChosen}
           onChange={handleFilterTemperament}
         >
           <option value="All">All</option>
@@ -108,7 +124,7 @@ export default function Dogs() {
         <label>Filter by origin:</label>
         <select
           name="Filter_Origin"
-          value={filterOrigin}
+          value={filtersChosenLocal.originChosen}
           onChange={handleFilterOrigin}
         >
           <option value="All">All</option>
@@ -125,11 +141,7 @@ export default function Dogs() {
           <option value="Descending_Weight">Weight_Descending</option>
         </select>
         <label>Search by name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={handleSearchName}
-        />
+        <input type="text" value={name} onChange={handleSearchName} />
       </div>
       <div className={style.dogsContainer}>
         {dogsMostrados.length === 0 ? (
@@ -153,7 +165,7 @@ export default function Dogs() {
         <label>Filter by temperament:</label>
         <select
           name="Filter_Temperament"
-          value={filterTemperament}
+          value={filtersChosenLocal.temperamentChosen}
           onChange={handleFilterTemperament}
         >
           <option value="All">All</option>
@@ -164,7 +176,7 @@ export default function Dogs() {
         <label>Filter by origin:</label>
         <select
           name="Filter_Origin"
-          value={filterOrigin}
+          value={filtersChosenLocal.originChosen}
           onChange={handleFilterOrigin}
         >
           <option value="All">All</option>
@@ -181,11 +193,7 @@ export default function Dogs() {
           <option value="Descending_Weight">Weight_Descending</option>
         </select>
         <label>Search by name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={handleSearchName}
-        />
+        <input type="text" value={name} onChange={handleSearchName} />
       </div>
     </div>
   );

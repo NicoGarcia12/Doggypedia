@@ -6,6 +6,7 @@ export const PETICION_DOGS = "PETICION_DOGS";
 export const LOAD_TEMPERAMENTS = "LOAD_TEMPERAMENTS";
 export const CHANGE_PAGE = "CHANGE_PAGE";
 export const SEARCH_NAME = "SEARCH_NAME";
+export const COMBINED_FILTERS = "COMBINED_FILTERS";
 
 export const peticionDogs = () => {
   const endpoint = "http://localhost:3001/dogs";
@@ -38,6 +39,13 @@ export const change_page = (page) => {
   };
 };
 
+export function combinedFilters(allFilters) {
+  return {
+    type: COMBINED_FILTERS,
+    payload: allFilters,
+  };
+}
+
 export function filterDogsTemperament(temperament) {
   return {
     type: FILTER_TEMPERAMENT,
@@ -62,14 +70,18 @@ export function orderDogs(ordenamiento) {
 export const searchName = (name) => {
   const endpoint = `http://localhost:3001/dogs?name=${name}`;
   return (dispatch) => {
-    axios(endpoint).then(({ data }) => {
-      return dispatch({
-        type: SEARCH_NAME,
-        payload: data,
+    axios(endpoint)
+      .then(({ data }) => {
+        return dispatch({
+          type: SEARCH_NAME,
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        return dispatch({
+          type: SEARCH_NAME,
+          payload: error.response.data,
+        });
       });
-    }).catch((error) => {      return dispatch({
-      type: SEARCH_NAME,
-      payload: error.response.data,
-    });});
   };
 };
