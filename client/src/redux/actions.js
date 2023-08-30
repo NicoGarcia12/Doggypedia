@@ -7,9 +7,11 @@ export const LOAD_TEMPERAMENTS = "LOAD_TEMPERAMENTS";
 export const CHANGE_PAGE = "CHANGE_PAGE";
 export const SEARCH_NAME = "SEARCH_NAME";
 export const COMBINED_FILTERS = "COMBINED_FILTERS";
+export const url = "http://localhost:3001"; // CAMBIAR EN GITHUB
+axios.defaults.baseURL = url;
 
 export const peticionDogs = () => {
-  const endpoint = "http://localhost:3001/dogs";
+  const endpoint = "/dogs";
   return (dispatch) => {
     axios(endpoint).then(({ data }) => {
       return dispatch({
@@ -21,7 +23,7 @@ export const peticionDogs = () => {
 };
 
 export const loadTemperaments = () => {
-  const endpoint = "http://localhost:3001/temperaments";
+  const endpoint = "/temperaments";
   return (dispatch) => {
     axios(endpoint).then(({ data }) => {
       return dispatch({
@@ -68,7 +70,7 @@ export function orderDogs(ordenamiento) {
 }
 
 export const searchName = (name) => {
-  const endpoint = `http://localhost:3001/dogs?name=${name}`;
+  const endpoint = `/dogs?name=${name}`;
   return (dispatch) => {
     axios(endpoint)
       .then(({ data }) => {

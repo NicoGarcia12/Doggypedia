@@ -2,7 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import style from "./detail.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { url } from "../../redux/actions";
+axios.defaults.baseURL = url;
 export default function Detail() {
   const [dog, setDog] = useState([]);
   const { id } = useParams();
@@ -10,7 +11,7 @@ export default function Detail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`http://localhost:3001/dogs/${id}`)
+    axios(`/dogs/${id}`)
       .then(({ data }) => {
         setDog(data);
         setTemperament(data.temperaments);

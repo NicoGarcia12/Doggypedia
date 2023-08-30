@@ -5,6 +5,8 @@ import { loadTemperaments } from "../../redux/actions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from "./create.module.css";
+import { url } from "../../redux/actions";
+axios.defaults.baseURL = url;
 
 export default function Create() {
   const [newBreed, setNewBreed] = useState({
@@ -18,8 +20,8 @@ export default function Create() {
     anios_max: "",
     temperaments: [],
   });
+  const Dogs = useSelector((state) => state.allDogs);
   const [errors, setErrors] = useState({});
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [temperaments, setTemperaments] = useState([]);
@@ -54,6 +56,7 @@ export default function Create() {
         ...newBreed,
         [event.target.name]: event.target.value,
         temperaments: newBreed.temperaments,
+        dogs: Dogs
       })
     );
   };
@@ -105,7 +108,7 @@ export default function Create() {
       alert("Debe llenar todos los campos de manera correcta");
     } else {
       axios
-        .post("http://localhost:3001/dogs", newBreed)
+        .post("/dogs", newBreed)
         .then((response) => {
           alert(response.data);
           navigate("/home");

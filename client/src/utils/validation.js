@@ -1,7 +1,7 @@
 export default function validation(inputs) {
   let errors = {};
-  if (!inputs.name) {
-    errors.name = "The name cannot be empty";
+  if (!inputs.name || inputs.dogs.some((dog) => dog.name === inputs.name)) {
+    errors.name = "The name cannot be empty or already exist";
   }
   if (
     !inputs.weight_min ||
@@ -13,8 +13,7 @@ export default function validation(inputs) {
     inputs.weight_max < 1 ||
     inputs.weight_max < inputs.weight_min
   ) {
-    errors.weight =
-      "They must be at least 1 and respect min-max";
+    errors.weight = "They must be at least 1 and respect min-max";
   }
   if (
     !inputs.height_min ||
@@ -26,8 +25,7 @@ export default function validation(inputs) {
     inputs.height_max < 1 ||
     inputs.height_max < inputs.height_min
   ) {
-    errors.height =
-      "They must be at least 1 and respect min-max";
+    errors.height = "They must be at least 1 and respect min-max";
   }
   if (
     !inputs.anios_min ||

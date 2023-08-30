@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import style from "./dog.module.css";
 
 export default function Dog({ dog }) {
-  const image = isNaN(dog.id) ? dog.image : dog.image.url;
+  const image = isNaN(dog.id) ? dog.image : dog.image?.url;
   const weight = isNaN(dog.id) ? dog.weight : dog.weight.metric;
   let temperaments;
   if (isNaN(dog.id)) {
