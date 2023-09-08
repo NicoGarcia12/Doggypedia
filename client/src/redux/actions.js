@@ -9,7 +9,6 @@ export const SEARCH_NAME = "SEARCH_NAME";
 export const COMBINED_FILTERS = "COMBINED_FILTERS";
 export const url = "http://localhost:3001"; // CAMBIAR EN GITHUB
 axios.defaults.baseURL = url;
-let hola = "probar";
 
 export const peticionDogs = () => {
   const endpoint = "/dogs";
