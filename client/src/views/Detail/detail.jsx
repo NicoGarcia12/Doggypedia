@@ -47,7 +47,7 @@ export default function Detail() {
       <img src={image} alt={dog.name} className={style.leftSection} />
       <div className={style.rightSection}>
         <h2>Name: {dog.name}</h2>
-        <h3>Height: {height} m</h3>
+        <h3>Height: {height} cm</h3>
         <h3>Weight: {weight} kg</h3>
         <h3>Temperaments: {temperaments}</h3>
         <h3>Lifespan: {dog.life_span}</h3>
