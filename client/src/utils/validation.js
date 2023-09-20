@@ -1,37 +1,47 @@
 export default function validation(inputs) {
   let errors = {};
+
   if (!inputs.name || inputs.dogs.some((dog) => dog.name === inputs.name)) {
     errors.name = "The name cannot be empty or already exist";
   }
+
+  const parseNumber = (value) => {
+    return value ? parseFloat(value) : undefined;
+  };
+
+  const weightMin = parseNumber(inputs.weight_min);
+  const weightMax = parseNumber(inputs.weight_max);
+  const heightMin = parseNumber(inputs.height_min);
+  const heightMax = parseNumber(inputs.height_max);
+  const aniosMin = parseNumber(inputs.anios_min);
+  const aniosMax = parseNumber(inputs.anios_max);
+
   if (
-    !inputs.weight_min ||
-    isNaN(inputs.weight_min) ||
-    inputs.weight_min < 1 ||
-    inputs.weight_min > inputs.weight_max ||
-    !inputs.weight_max ||
-    isNaN(inputs.weight_max) ||
-    inputs.weight_max < 1 ||
-    inputs.weight_max < inputs.weight_min
+    isNaN(weightMin) ||
+    isNaN(weightMax) ||
+    weightMin < 1 ||
+    weightMax < 1 ||
+    weightMax < weightMin
   ) {
     errors.weight = "They must be at least 1 and respect min-max";
   }
+
   if (
-    !inputs.height_min ||
-    isNaN(inputs.height_min) ||
-    inputs.height_min < 1 ||
-    inputs.height_min > inputs.height_max ||
-    !inputs.height_max ||
-    isNaN(inputs.height_max) ||
-    inputs.height_max < 1 ||
-    inputs.height_max < inputs.height_min
+    isNaN(heightMin) ||
+    isNaN(heightMax) ||
+    heightMin < 1 ||
+    heightMax < 1 ||
+    heightMax < heightMin
   ) {
     errors.height = "They must be at least 1 and respect min-max";
   }
+
   if (
-    isNaN(inputs.anios_min) ||
-    isNaN(inputs.anios_max) ||
-    inputs.anios_min < 0 ||
-    inputs.anios_max <= inputs.anios_min
+    isNaN(aniosMin) ||
+    isNaN(aniosMax) ||
+    aniosMin < 0 ||
+    aniosMax < 0 ||
+    aniosMax <= aniosMin
   ) {
     errors.anios =
       "They cannot be equal, they have to be from 0 and respect min-max";
