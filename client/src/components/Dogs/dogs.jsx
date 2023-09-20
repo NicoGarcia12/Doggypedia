@@ -15,7 +15,7 @@ export default function Dogs() {
   // Defino variables con lo que traigo del estado global y sino estados locales para trabajarlos dentro de la página
   const order = useSelector((state) => state.order);
   const Dogs = useSelector((state) => state.copyAllDogs);
-  const currentPage = useSelector((state) => state.currentPage);
+  let currentPage = useSelector((state) => state.currentPage);
   const temperaments = useSelector((state) => state.allTemperaments);
   const filtersChosen = useSelector((state) => state.filtersChosen);
   const [name, setName] = useState();
@@ -26,6 +26,9 @@ export default function Dogs() {
 
   const dogsPerPage = 8;
   const pages = Math.ceil(Dogs.length / dogsPerPage); // Calculo la cantidad de páginas a mostrar
+  if (pages === 0) {
+    currentPage = 0;
+  }
   const indexLast = dogsPerPage * currentPage;
   const indexStart = indexLast - dogsPerPage;
   const dogsMostrados = Dogs.slice(indexStart, indexLast); // Calculo los perros que voy a mostrar dependiendo de la página actual
@@ -113,7 +116,9 @@ export default function Dogs() {
           {/* Le aplico a la función cambioEstado ese texto cada vez que hago click en el botón  */}
           Previous
         </button>
-        <label>{currentPage} / {pages}</label>
+        <label>
+          {currentPage} / {pages}
+        </label>
         {/* Muestro entre los botones la página actual */}
         <button type="button" onClick={() => cambioEstado("NEXT")}>
           {/* Le aplico a la función cambioEstado ese texto cada vez que hago click en el botón  */}
@@ -172,7 +177,9 @@ export default function Dogs() {
         <button type="button" onClick={() => cambioEstado("PREVIOUS")}>
           Previous
         </button>
-        <label>{currentPage} / {pages}</label>
+        <label>
+          {currentPage} / {pages}
+        </label>
         <button type="button" onClick={() => cambioEstado("NEXT")}>
           Next
         </button>
