@@ -113,7 +113,7 @@ export default function Dogs() {
           {/* Le aplico a la función cambioEstado ese texto cada vez que hago click en el botón  */}
           Previous
         </button>
-        <label>{currentPage}</label>
+        <label>{currentPage} / {pages}</label>
         {/* Muestro entre los botones la página actual */}
         <button type="button" onClick={() => cambioEstado("NEXT")}>
           {/* Le aplico a la función cambioEstado ese texto cada vez que hago click en el botón  */}
@@ -172,7 +172,7 @@ export default function Dogs() {
         <button type="button" onClick={() => cambioEstado("PREVIOUS")}>
           Previous
         </button>
-        <label>{currentPage}</label>
+        <label>{currentPage} / {pages}</label>
         <button type="button" onClick={() => cambioEstado("NEXT")}>
           Next
         </button>
