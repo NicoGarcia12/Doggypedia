@@ -28,18 +28,15 @@ export default function validation(inputs) {
     errors.height = "They must be at least 1 and respect min-max";
   }
   if (
-    !inputs.anios_min ||
     isNaN(inputs.anios_min) ||
-    inputs.anios_min < 0 ||
-    inputs.anios_min >= inputs.anios_max ||
-    !inputs.anios_max ||
     isNaN(inputs.anios_max) ||
-    inputs.anios_max < 0 ||
+    inputs.anios_min < 0 ||
     inputs.anios_max <= inputs.anios_min
   ) {
     errors.anios =
       "They cannot be equal, they have to be from 0 and respect min-max";
   }
+
   function isImageURL(url) {
     // Expresión regular para verificar si la URL tiene una extensión de imagen válida
     const imageExtensions = /\.(jpeg|jpg|gif|png|svg)$/i;
