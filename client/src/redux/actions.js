@@ -7,9 +7,8 @@ export const LOAD_TEMPERAMENTS = "LOAD_TEMPERAMENTS";
 export const CHANGE_PAGE = "CHANGE_PAGE";
 export const SEARCH_NAME = "SEARCH_NAME";
 export const COMBINED_FILTERS = "COMBINED_FILTERS";
-export const url = "https://doggypedia.onrender.com/"; // CAMBIAR EN GITHUB
+export const url = "http://localhost:3001"; // CAMBIAR EN GITHUB
 axios.defaults.baseURL = url;
-let hola = "probar";
 
 export const peticionDogs = () => {
   const endpoint = "/dogs";
