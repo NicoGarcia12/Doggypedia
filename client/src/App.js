@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar/navBar";
 import Detail from "./views/Detail/detail";
 import Create from "./views/Form/create";
 import { useEffect } from "react";
-import { loadTemperaments, peticionDogs } from "./redux/actions";
+import { loadTemperaments } from "./redux/actions";
 import { useDispatch } from "react-redux";
 export default function App() {
 
@@ -14,7 +14,6 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(peticionDogs());
     dispatch(loadTemperaments());
   }, [dispatch]);
   
