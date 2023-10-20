@@ -114,7 +114,7 @@ export default function Create() {
           navigate("/home");
         })
         .catch((error) => {
-          alert("There was an error creating the breed");
+          alert(error.error);
         });
     }
   };
