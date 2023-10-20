@@ -24,7 +24,7 @@ const getUniqueDogAPIController = async (id) => {
     if (dogIdAPI) {
       output = dogIdAPI;
     } else {
-      throw new Error("Dogsasa not found");
+      throw new Error("Dog not found");
     }
     return output;
   } catch (error) {
