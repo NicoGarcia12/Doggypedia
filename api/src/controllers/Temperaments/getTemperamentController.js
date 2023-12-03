@@ -17,6 +17,7 @@ const getTemperamentController = async () => {
   temperaments.forEach(async (temperament) => {
     await temperamentsBDHelper(temperament);
   });
+
   return await loadTemperamentsBDHelper();
 };
 
