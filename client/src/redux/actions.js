@@ -8,7 +8,7 @@ export const CHANGE_PAGE = "CHANGE_PAGE";
 export const SEARCH_NAME = "SEARCH_NAME";
 export const COMBINED_FILTERS = "COMBINED_FILTERS";
 
-export const url = "doggypedia-production.up.railway.app"; // CAMBIAR EN GITHUB a doggypedia-production.up.railway.app o http://localhost:3001
+export const url = "https://doggypedia.onrender.com"; // CAMBIAR EN GITHUB a https://doggypedia.onrender.com o http://localhost:3001
 axios.defaults.baseURL = url;
 
 export const peticionDogs = () => {
